@@ -1,0 +1,7 @@
+import yfinance as yf
+
+# 1. Harvest
+data = yf.download("AAPL", period="1y", interval="1d")
+
+# 2. View
+print(data.tail())
