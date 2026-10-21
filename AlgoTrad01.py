@@ -13,10 +13,13 @@ if isinstance(df.columns, pd.MultiIndex):
 # 3. Clean: Remove timezones so the spreadsheet viewer doesn't crash
 df.index = df.index.tz_localize(None)
 
+import numpy as np
+
 # --- STEP 1: MATH (Add this before plotting) ---
 delta = df['Close'].diff()
 gain = (delta.where(delta > 0, 0)).rolling(window=14).mean()
 loss = (-delta.where(delta < 0, 0)).rolling(window=14).mean()
+rs = gain / loss.replace(0, np.nan)
 df['RSI'] = 100 - (100 / (1 + rs))
 
 # Calculate Moving Averages
